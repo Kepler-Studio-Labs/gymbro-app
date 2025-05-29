@@ -21,6 +21,12 @@ ENV DATABASE_URL=$DATABASE_URL
 RUN pnpm prisma migrate deploy
 RUN pnpm prisma generate
 
+ARG NEXTAUTH_URL
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
+
+ENV AUTH_TRUST_HOST=true
+ENV NODE_ENV=production
+
 RUN pnpm build
 
 ### PRODUCTION

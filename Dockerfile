@@ -45,6 +45,6 @@ ENV DATABASE_URL=$DATABASE_URL
 RUN pnpm prisma migrate deploy
 RUN pnpm prisma generate
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD ["pnpm", "start"]
+CMD ["pnpm", "start", "--", "-p", "3001"]

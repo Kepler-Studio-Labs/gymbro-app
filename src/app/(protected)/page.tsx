@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
+import WorkoutDashboard from "@/components/workout-dashboard";
 import { useCalendarStore } from "@/store/calendar-store";
 
 export default function Home() {
@@ -21,12 +23,20 @@ export default function Home() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbPage>{date?.toDateString()}</BreadcrumbPage>
+              <BreadcrumbPage>
+                {date?.toLocaleDateString("fr-FR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
-      <div className="flex flex-1 flex-col gap-4 p-4">test</div>
+      <div className="flex flex-1 flex-col gap-4 p-4">
+        <WorkoutDashboard />
+      </div>
     </SidebarInset>
   );
 }

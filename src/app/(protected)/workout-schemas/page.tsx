@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -13,8 +13,8 @@ import { WorkoutSchemaForm } from "@/components/workout-schema-form";
 
 export default function WorkoutSchemasPage() {
   const handleAddSchema = () => {
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   return (
     <SidebarInset>
@@ -24,7 +24,10 @@ export default function WorkoutSchemasPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbPage className="flex items-center gap-2">Workout Schemas <WorkoutSchemaForm onAdd={handleAddSchema} /></BreadcrumbPage>
+              <BreadcrumbPage className="flex items-center gap-2">
+                Schémas d'entraînement{" "}
+                <WorkoutSchemaForm onAdd={handleAddSchema} />
+              </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

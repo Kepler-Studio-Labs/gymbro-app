@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import { DatePicker } from "@/components/date-picker";
@@ -16,21 +16,33 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { DumbbellIcon, HomeIcon, PlusIcon } from "lucide-react";
+import {
+  CheckCheckIcon,
+  DumbbellIcon,
+  HomeIcon,
+  PlusIcon,
+  TargetIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const session = useSession()
-  const pathname = usePathname()
+  const session = useSession();
+  const pathname = usePathname();
 
-  console.log(pathname)
+  console.log(pathname);
 
   return (
     <Sidebar {...props}>
       <SidebarHeader className="h-16 border-b border-sidebar-border">
-        <NavUser user={{name: session.data?.user?.name || "", email: session.data?.user?.email || "", avatar: session.data?.user?.image || ""}} />
+        <NavUser
+          user={{
+            name: session.data?.user?.name || "",
+            email: session.data?.user?.email || "",
+            avatar: session.data?.user?.image || "",
+          }}
+        />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -41,17 +53,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/" as={"/"} className="cursor-pointer">
-                  <SidebarMenuButton className={pathname === "/" ? "bg-foreground text-background hover:bg-foreground hover:text-background" : ""}>
+                  <SidebarMenuButton
+                    className={
+                      pathname === "/"
+                        ? "bg-foreground text-background hover:bg-foreground hover:text-background"
+                        : ""
+                    }
+                  >
                     <HomeIcon />
-                    Dashboard
+                    Tableau de bord
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/register-workout-data" as={"/register-workout-data"} className="cursor-pointer">
-                  <SidebarMenuButton className={pathname === "/register-workout-data" ? "bg-foreground text-background hover:bg-foreground hover:text-background" : ""}>
-                    <PlusIcon />
-                    Register Workout Data
+                <Link
+                  href="/register-workout-data"
+                  as={"/register-workout-data"}
+                  className="cursor-pointer"
+                >
+                  <SidebarMenuButton
+                    className={
+                      pathname === "/register-workout-data"
+                        ? "bg-foreground text-background hover:bg-foreground hover:text-background"
+                        : ""
+                    }
+                  >
+                    <CheckCheckIcon />
+                    Enregistrer une séance
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
@@ -60,15 +88,41 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel className="px-2 py-1.5 text-left text-sm">
-            Edit
+            Édition
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link href="/workout-schemas" as={"/workout-schemas"} className="cursor-pointer">
-                  <SidebarMenuButton className={pathname === "/workout-schemas" ? "bg-foreground text-background hover:bg-foreground hover:text-background" : ""}>
+                <Link
+                  href="/exercise-schemas"
+                  as={"/exercise-schemas"}
+                  className="cursor-pointer"
+                >
+                  <SidebarMenuButton
+                    className={
+                      pathname === "/exercise-schemas"
+                        ? "bg-foreground text-background hover:bg-foreground hover:text-background"
+                        : ""
+                    }
+                  >
+                    <TargetIcon />
+                    Schémas d'exercices
+                  </SidebarMenuButton>
+                </Link>
+                <Link
+                  href="/workout-schemas"
+                  as={"/workout-schemas"}
+                  className="cursor-pointer"
+                >
+                  <SidebarMenuButton
+                    className={
+                      pathname === "/workout-schemas"
+                        ? "bg-foreground text-background hover:bg-foreground hover:text-background"
+                        : ""
+                    }
+                  >
                     <DumbbellIcon />
-                    Workout Schemas
+                    Schémas de séances
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

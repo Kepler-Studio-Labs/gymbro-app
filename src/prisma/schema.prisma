@@ -8,18 +8,17 @@ generator client {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id              String           @id @default(cuid())
+  name            String?
+  email           String           @unique
+  emailVerified   DateTime?
+  image           String?
+  accounts        Account[]
+  sessions        Session[]
   // Optional for WebAuthn support
-  Authenticator Authenticator[]
-  workoutExercises WorkoutExercise[]
-  workoutSchemas WorkoutSchema[]
-  workouts Workout[]
+  Authenticator   Authenticator[]
+  exerciseSchemas ExerciseSchema[]
+  workoutSchemas  WorkoutSchema[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,22 +79,51 @@ model Authenticator {
   @@id([userId, credentialID])
 }
 
-model WorkoutExercise {
+model SetSchema {
+  id    String  @unique @default(cuid())
+  notes String?
+
+  minReps              Int
+  maxReps              Int
+  weight               Float
+  restSeconds          Int
+  rpe                  Int
+  tempo                String
+  degressive           Boolean @default(false)
+  degressiveType       String  @default("percentage")
+  degressivePercentage Int     @default(40)
+  dropSet              Boolean @default(false)
+  dropSetStages        Int     @default(2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ExerciseSchema   ExerciseSchema @relation(fields: [exerciseSchemaId], references: [id])
+  exerciseSchemaId String
+}
+
+model ExerciseSchema {
+  id          String  @unique @default(cuid())
+  name        String
+  description String?
+  muscleGroup String
+  equipment   String
+
+  sets SetSchema[]
+
+  userId                  String
+  user                    User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutSchemasRelations ExerciseSchemaOnWorkoutSchema[]
+}
+
+model ExerciseSchemaOnWorkoutSchema {
   id String @unique @default(cuid())
-  name String
-  sets Int
-  minReps Int
-  maxReps Int?
-  restSeconds Int
-  degresive Boolean
 
-  exercisesInstances WorkoutExerciseInstance[]
+  exerciseSchemaId String
+  exerciseSchema   ExerciseSchema @relation(fields: [exerciseSchemaId], references: [id], onDelete: Cascade)
 
-  schemaId String
-  schema WorkoutSchema @relation(fields: [schemaId], references: [id], onDelete: Cascade)
-
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutSchemaId String
+  workoutSchema   WorkoutSchema @relation(fields: [workoutSchemaId], references: [id], onDelete: Cascade)
 }
 
 model WorkoutSchema {
@@ -103,40 +131,7 @@ model WorkoutSchema {
 
   name String @default("Unnamed workout")
 
-  exercises WorkoutExercise[]
-
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  workouts Workout[]
-}
-
-model WorkoutExerciseInstance {
-  id String @unique @default(cuid())
-
-  reps Int
-  weight Float?
-  restSeconds Int?
-  degresive Boolean
-  degresiveReps Int?
-  degresiveWeight Float?
-  
-  exerciseId String
-  exercise WorkoutExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-
-  workoutId String
-  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-}
-
-model Workout {
-  id String @unique @default(cuid())
-  date DateTime @default(now())
-
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  exercisesInstances WorkoutExerciseInstance[]
-
-  schemaId String
-  schema WorkoutSchema @relation(fields: [schemaId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseSchemas ExerciseSchemaOnWorkoutSchema[]
 }

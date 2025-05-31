@@ -2,60 +2,107 @@
 
 import { prisma } from "@/lib/prisma";
 import { ensureAuth } from "./auth-action";
+import {
+  ExerciseSchema,
+  SetSchema,
+  WorkoutSchema,
+  ExerciseSchemaOnWorkoutSchema,
+} from "@prisma/client";
 
 // Workout exercises
 
-export async function getWorkoutExercises() {
+export type TExercise = ExerciseSchema & {
+  sets: SetSchema[];
+  workoutSchemasRelations: ExerciseSchemaOnWorkoutSchema[];
+};
+
+export async function getWorkoutExercises(): Promise<TExercise[]> {
   const session = await ensureAuth();
 
-  const workoutExercises = await prisma.workoutExercise.findMany({
+  const workoutExercises = await prisma.exerciseSchema.findMany({
     where: {
       userId: session.user.id,
+    },
+    include: {
+      sets: true,
+      workoutSchemasRelations: true,
     },
   });
 
   return workoutExercises;
 }
 
+export interface CreateSetData {
+  notes?: string;
+  minReps: number;
+  maxReps: number;
+  weight: number;
+  restSeconds: number;
+  rpe: number;
+  tempo: string;
+  degressive: boolean;
+  degressiveType: string;
+  degressivePercentage: number;
+  dropSet: boolean;
+  dropSetStages: number;
+  exerciseSchemaId: string;
+}
+
+export interface CreateExerciseData {
+  name: string;
+  description?: string;
+  muscleGroup: string;
+  equipment: string;
+  sets: CreateSetData[];
+}
+
 export async function createWorkoutExercise({
   name,
-  schemaId,
+  description,
+  muscleGroup,
+  equipment,
   sets,
-  minReps,
-  maxReps,
-  restSeconds,
-  degresive,
-}: {
-  name: string;
-  schemaId: string;
-  sets: number;
-  minReps: number;
-  maxReps?: number | null;
-  restSeconds: number;
-  degresive: boolean;
-}) {
+}: CreateExerciseData): Promise<TExercise> {
   const session = await ensureAuth();
 
-  const workoutExercise = await prisma.workoutExercise.create({
+  const exerciseSchema = await prisma.exerciseSchema.create({
     data: {
       name,
+      description,
+      muscleGroup,
+      equipment,
       userId: session.user.id,
-      sets,
-      minReps,
-      maxReps,
-      restSeconds,
-      degresive,
-      schemaId,
+      sets: {
+        create: sets.map((set) => ({
+          notes: set.notes,
+          minReps: set.minReps,
+          maxReps: set.maxReps,
+          weight: set.weight,
+          restSeconds: set.restSeconds,
+          rpe: set.rpe,
+          tempo: set.tempo,
+          degressive: set.degressive,
+          degressiveType: set.degressiveType,
+          degressivePercentage: set.degressivePercentage,
+          dropSet: set.dropSet,
+          dropSetStages: set.dropSetStages,
+          exerciseSchemaId: set.exerciseSchemaId,
+        })),
+      },
+    },
+    include: {
+      sets: true,
+      workoutSchemasRelations: true,
     },
   });
 
-  return workoutExercise;
+  return exerciseSchema;
 }
 
 export async function deleteWorkoutExercise(id: string) {
   const session = await ensureAuth();
 
-  const workoutExercise = await prisma.workoutExercise.delete({
+  const workoutExercise = await prisma.exerciseSchema.delete({
     where: {
       id,
       userId: session.user.id,

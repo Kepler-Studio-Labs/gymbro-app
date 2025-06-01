@@ -6,9 +6,11 @@ import {
   ExerciseSchema,
   SetSchema,
   ExerciseSchemaOnWorkoutSchema,
+  WorkoutSchema,
 } from "@prisma/client";
 
 import { createExerciseFormSchema } from "../components/forms/exercise-schema-form";
+import { createWorkoutSchema as zCreateWorkoutSchema } from "../components/forms/workout-schema-form";
 import { z } from "zod";
 
 // Workout exercises
@@ -89,29 +91,58 @@ export async function deleteWorkoutExercise(id: string) {
 
 // Workout schemas
 
-export async function getWorkoutSchemas() {
+export type TWorkout = WorkoutSchema & {
+  exerciseSchemas: (ExerciseSchemaOnWorkoutSchema & {
+    exerciseSchema: ExerciseSchema & {
+      sets: SetSchema[];
+    };
+  })[];
+};
+
+export async function getWorkoutSchemas(): Promise<TWorkout[]> {
   const session = await ensureAuth();
 
   const workoutSchemas = await prisma.workoutSchema.findMany({
     where: {
       userId: session.user.id,
     },
-  });
-
-  return workoutSchemas;
-}
-
-export async function createWorkoutSchema(name: string) {
-  const session = await ensureAuth();
-
-  const workoutSchema = await prisma.workoutSchema.create({
-    data: {
-      name,
-      userId: session.user.id,
+    include: {
+      exerciseSchemas: {
+        include: {
+          exerciseSchema: {
+            include: {
+              sets: true,
+            },
+          },
+        },
+      },
     },
   });
 
-  return workoutSchema;
+  // Transform the data to match the TWorkout type
+  return workoutSchemas as TWorkout[];
+}
+
+export async function createWorkoutSchema(
+  data: z.infer<typeof zCreateWorkoutSchema>
+) {
+  const session = await ensureAuth();
+
+  await prisma.workoutSchema.create({
+    data: {
+      name: data.name,
+      userId: session.user.id,
+      exerciseSchemas: {
+        create: data.exercises.map((exercice) => {
+          return {
+            exerciseSchemaId: exercice.exerciseSchemaId,
+          };
+        }),
+      },
+    },
+  });
+
+  return true;
 }
 
 export async function deleteWorkoutSchema(id: string) {

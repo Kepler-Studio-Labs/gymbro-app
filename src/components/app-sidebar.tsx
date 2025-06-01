@@ -109,6 +109,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     Schémas d'exercices
                   </SidebarMenuButton>
                 </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
                 <Link
                   href="/workout-schemas"
                   as={"/workout-schemas"}

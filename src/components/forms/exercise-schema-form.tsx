@@ -533,9 +533,15 @@ export function ExerciseSchemaForm({
                         <FormItem className="w-full">
                           <FormLabel>Stages</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <Input
+                              type="number"
+                              {...field}
+                              onChange={(v) => {
+                                field.onChange(Number(v.target.value));
+                              }}
+                            />
                           </FormControl>
-                          <FormDescription />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />

@@ -8,7 +8,7 @@ export const upperMuscleGroups = [
   "Trapèzes",
   "Cervicaux",
   "Autre (Upper)",
-];
+] as const;
 
 export const lowerMuscleGroups = [
   "Jambes",
@@ -18,6 +18,30 @@ export const lowerMuscleGroups = [
   "Ischio-jambiers",
   "Quadriceps",
   "Autre (Lower)",
-];
+] as const;
 
-export const muscleGroups = [...upperMuscleGroups, ...lowerMuscleGroups];
+export const muscleGroups = [
+  ...upperMuscleGroups,
+  ...lowerMuscleGroups,
+] as const;
+
+export const gymEquipments = [
+  "Barre",
+  "Haltère",
+  "Câble",
+  "Machine",
+  "Poids du corps",
+  "Élastique de résistance",
+  "Kettlebell",
+  "Médecine ball",
+  "Banc",
+  "TRX / Sangles de suspension",
+  "Roue abdominale",
+  "Plyo Box",
+  "Slam Ball",
+  "Sacs de sable",
+  "Corde ondulatoire",
+  "Autre",
+] as const;
+
+export const degressiveTypes = ["Pourcentage"] as const;

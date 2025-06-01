@@ -24,7 +24,6 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
-import { ScrollArea } from "../ui/scroll-area";
 import { Badge } from "../ui/badge";
 import { useEffect, useState } from "react";
 import {

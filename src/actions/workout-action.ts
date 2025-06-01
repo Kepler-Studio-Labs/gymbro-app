@@ -5,7 +5,6 @@ import { ensureAuth } from "./auth-action";
 import {
   ExerciseSchema,
   SetSchema,
-  WorkoutSchema,
   ExerciseSchemaOnWorkoutSchema,
 } from "@prisma/client";
 
@@ -42,7 +41,7 @@ export async function createWorkoutExercise(
 
   const { name, description, muscleGroup, equipment, sets } = data;
 
-  const exerciseSchema = await prisma.exerciseSchema.create({
+  await prisma.exerciseSchema.create({
     data: {
       name,
       description,

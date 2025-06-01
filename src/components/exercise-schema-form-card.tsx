@@ -19,10 +19,10 @@ export function ExerciseSchemaFormCard({
     <Card>
       <CardHeader>
         <CardTitle className="text-xl flex items-center gap-1">
-          <TargetIcon size={18} /> Créer un schéma d'exercice
+          <TargetIcon size={18} /> Créer un schéma d&apos;exercice
         </CardTitle>
         <CardDescription>
-          Definissez votre schéma d'exercice et ajoutez-y des exercices
+          Definissez votre schéma d&apos;exercice et ajoutez-y des exercices
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -39,13 +39,13 @@ export default function ExerciseSchemasPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbPage>Schémas d'exercices</BreadcrumbPage>
+              <BreadcrumbPage>Schémas d&apos;exercices</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
       <div className="max-w-6xl w-full mx-auto space-y-6 p-4">
-        <h1 className="text-3xl font-bold">Schémas d'exercices</h1>
+        <h1 className="text-3xl font-bold">Schémas d&apos;exercices</h1>
         <div className="grid max-xl:grid-cols-1 grid-cols-2 gap-4">
           <ExerciseSchemaFormCard
             refreshCallback={() => {

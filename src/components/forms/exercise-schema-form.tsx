@@ -19,7 +19,6 @@ import {
 } from "../ui/form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { TypeOf } from "zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import {
@@ -569,7 +568,7 @@ export function ExerciseSchemaForm({
                   Aucune serie configuree
                 </p>
                 <p className="text-muted-foreground font-medium">
-                  Appuyez sur "Ajouter une serie" pour commencer
+                  Appuyez sur &quot;Ajouter une serie&quot; pour commencer
                 </p>
               </div>
             )}

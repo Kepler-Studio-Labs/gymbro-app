@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
 import WorkoutDashboard from "@/components/workout-dashboard";
 import { useCalendarStore } from "@/store/calendar-store";
 

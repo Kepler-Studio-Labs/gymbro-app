@@ -16,7 +16,8 @@ export function ExerciseSchemaList({ exercises }: { exercises: TExercise[] }) {
       <CardHeader>
         <CardTitle className="text-xl">Exercices sauvegardés</CardTitle>
         <CardDescription>
-          La liste de vos schémas d'exercices et/ou ceux que vous avez importés
+          La liste de vos schémas d&apos;exercices et/ou ceux que vous avez
+          importés
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -29,7 +30,7 @@ export function ExerciseSchemaList({ exercises }: { exercises: TExercise[] }) {
         )}
         <div className="space-y-2 max-h-[50vh] overflow-y-auto pr-2">
           {exercises.map((exercise) => (
-            <ExerciseSchemaListItem exercise={exercise} />
+            <ExerciseSchemaListItem key={exercise.id} exercise={exercise} />
           ))}
         </div>
       </CardContent>

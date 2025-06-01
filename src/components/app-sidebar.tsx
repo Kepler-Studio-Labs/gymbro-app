@@ -20,7 +20,6 @@ import {
   CheckCheckIcon,
   DumbbellIcon,
   HomeIcon,
-  PlusIcon,
   TargetIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -106,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     }
                   >
                     <TargetIcon />
-                    Schémas d'exercices
+                    Schémas d&apos;exercices
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

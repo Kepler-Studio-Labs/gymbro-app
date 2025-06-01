@@ -1,6 +1,5 @@
 import { TExercise } from "@/actions/workout-action";
 import { Badge } from "./ui/badge";
-import { degressiveTypes } from "@/lib/gym-data";
 
 export function ExerciseSchemaListItem({ exercise }: { exercise: TExercise }) {
   return (
@@ -19,7 +18,10 @@ export function ExerciseSchemaListItem({ exercise }: { exercise: TExercise }) {
         <p className="text-sm">{exercise.description}</p>
       )}
       {exercise.sets.map((set, index) => (
-        <div className="flex items-center justify-between p-2 bg-accent text-accent-foreground">
+        <div
+          key={set.id}
+          className="flex items-center justify-between p-2 bg-accent text-accent-foreground"
+        >
           <div className="flex items-center gap-2">
             <p className="font-medium">Serie {index + 1}</p>
             <span className="font-medium text-muted">

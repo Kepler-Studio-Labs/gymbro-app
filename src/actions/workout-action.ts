@@ -9,6 +9,9 @@ import {
   ExerciseSchemaOnWorkoutSchema,
 } from "@prisma/client";
 
+import { createExerciseFormSchema } from "../components/forms/exercise-schema-form";
+import { z } from "zod";
+
 // Workout exercises
 
 export type TExercise = ExerciseSchema & {
@@ -32,38 +35,12 @@ export async function getWorkoutExercises(): Promise<TExercise[]> {
   return workoutExercises;
 }
 
-export interface CreateSetData {
-  notes?: string;
-  minReps: number;
-  maxReps: number;
-  weight: number;
-  restSeconds: number;
-  rpe: number;
-  tempo: string;
-  degressive: boolean;
-  degressiveType: string;
-  degressivePercentage: number;
-  dropSet: boolean;
-  dropSetStages: number;
-  exerciseSchemaId: string;
-}
-
-export interface CreateExerciseData {
-  name: string;
-  description?: string;
-  muscleGroup: string;
-  equipment: string;
-  sets: CreateSetData[];
-}
-
-export async function createWorkoutExercise({
-  name,
-  description,
-  muscleGroup,
-  equipment,
-  sets,
-}: CreateExerciseData): Promise<TExercise> {
+export async function createWorkoutExercise(
+  data: z.infer<typeof createExerciseFormSchema>
+): Promise<boolean> {
   const session = await ensureAuth();
+
+  const { name, description, muscleGroup, equipment, sets } = data;
 
   const exerciseSchema = await prisma.exerciseSchema.create({
     data: {
@@ -81,12 +58,11 @@ export async function createWorkoutExercise({
           restSeconds: set.restSeconds,
           rpe: set.rpe,
           tempo: set.tempo,
-          degressive: set.degressive,
+          degressive: set.isDegressive,
           degressiveType: set.degressiveType,
           degressivePercentage: set.degressivePercentage,
-          dropSet: set.dropSet,
+          dropSet: set.isDropSet,
           dropSetStages: set.dropSetStages,
-          exerciseSchemaId: set.exerciseSchemaId,
         })),
       },
     },
@@ -96,7 +72,7 @@ export async function createWorkoutExercise({
     },
   });
 
-  return exerciseSchema;
+  return true;
 }
 
 export async function deleteWorkoutExercise(id: string) {

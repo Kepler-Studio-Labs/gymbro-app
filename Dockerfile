@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat openssl
 RUN npm install -g pnpm@10.11.0
 
 COPY package.json pnpm-lock.yaml ./
-COPY prisma ./prisma
+COPY ./src/prisma ./prisma
 
 RUN pnpm install --frozen-lockfile
 
